@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@twurple/api": "^7.1.0",
+    "@twurple/auth": "^7.1.0",
+    "@twurple/chat": "^7.1.0",
+    "kindle-twitch-oauth": "^1.2.0"
+  }
+}
