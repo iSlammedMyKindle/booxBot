@@ -2,6 +2,7 @@ import { readFile, access, writeFile } from "fs/promises";
 import { authenticateTwitch } from "kindle-twitch-oauth";
 import { RefreshingAuthProvider, getTokenInfo } from "@twurple/auth";
 import { ClearMsg, ChatMessage, ChatClient } from "@twurple/chat";
+import { parseMessage } from "./cmdParser.mjs";
 // import { ApiClient } from '@twurple/api';
 
 // Open up config.json
@@ -49,7 +50,9 @@ const chatClient = new ChatClient({
   channels: configFile.twitch.channels,
 });
 chatClient.connect();
-chatClient.onMessage((channel, user, text, msg) => {
-  console.log("yay", channel, user, text, msg);
-  chatClient.say(configFile.twitch.channels[0], "test", { replyTo: msg.id });
+chatClient.onMessage(function (channel, user, text, msg) {
+  console.log("yay", channel, user, text);
+  // chatClient.say(configFile.twitch.channels[0], "test", { replyTo: msg.id });
+
+  if (text[0] == "!") parseMessage(chatClient, ...arguments);
 });

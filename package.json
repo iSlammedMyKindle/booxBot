@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "dependencies": {
     "@twurple/api": "^7.1.0",
     "@twurple/auth": "^7.1.0",
