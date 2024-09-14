@@ -1,8 +1,18 @@
 import { readFile } from "fs/promises";
 
+// These are special commands that are functions instead of JSON. They can't be distributed like the JSON ones can, so it should be secure to just add these on
 var commands = {};
 var routines = []; //list of strings that are rotated every other moment
 var routineIndex = 0;
+
+const specialCommands = {
+  reload: {
+    out: (sender = "", text = "", mentions) => {
+      loadCommands();
+      return "Commands are reloading!";
+    },
+  },
+};
 
 /**
  * @description Looks through all commands within `./commands.json`. If there's anything specified within `remote`, get commands from there too & stack. (override local commands with remote ones.)
@@ -19,7 +29,7 @@ async function loadCommands() {
     return;
   }
 
-  commands = {};
+  commands = { ...specialCommands };
 
   if (reloadedCommands.local)
     for (const cmd in reloadedCommands.local) {
@@ -77,6 +87,11 @@ export function parseMessage(client, channel, user, text, msg) {
             })
         );
     }
+
+    if (typeof resultOutput == "function")
+      return client.say(channel, resultOutput(users, text, users), {
+        replyTo: msg.id,
+      });
 
     // usr
     if (resultOutput.indexOf("%usr") > -1) {
