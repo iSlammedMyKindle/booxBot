@@ -7,7 +7,8 @@ var routineIndex = 0;
 
 const specialCommands = {
   reload: {
-    out: (sender = "", text = "", mentions) => {
+    out: (channel = "", sender = "", text = "", mentions) => {
+      if (channel != sender) return;
       loadCommands();
       return "Commands are reloading!";
     },
@@ -88,10 +89,16 @@ export function parseMessage(client, channel, user, text, msg) {
         );
     }
 
-    if (typeof resultOutput == "function")
-      return client.say(channel, resultOutput(users, text, users), {
-        replyTo: msg.id,
-      });
+    if (typeof resultOutput == "function") {
+      const out = resultOutput(channel, user, text, users);
+
+      if (out)
+        client.say(channel, out, {
+          replyTo: msg.id,
+        });
+
+      return;
+    }
 
     // usr
     if (resultOutput.indexOf("%usr") > -1) {
