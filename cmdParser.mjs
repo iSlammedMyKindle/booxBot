@@ -32,6 +32,16 @@ async function loadCommands() {
 
   if (reloadedCommands.remote) {
     // Obtain the JSON from a remote resource, override the existing commands if applicable
+    for (const link of reloadedCommands.remote) {
+      console.log("Now loading remote commands from", link);
+
+      const remoteCommands = JSON.parse(await (await fetch(link)).text());
+
+      // Load these remote commands
+      for (const cmd in remoteCommands) {
+        commands[cmd] = remoteCommands[cmd];
+      }
+    }
   }
 }
 

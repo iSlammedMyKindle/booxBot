@@ -1,0 +1,24 @@
+{
+  "local": {
+    "ping": {
+      "desc": "Sends Pong!",
+      "out": "Pong!"
+    },
+    "coin": {
+      "desc": "Flips a coin",
+      "out": "%rng!",
+      "rng": ["heads", "tails"]
+    },
+    "lurk": {
+      "desc": "Tell everyone you're lurking!",
+      "out": "%sender is now lurking!"
+    },
+    "boop": {
+      "desc": "Boop someone!",
+      "out": "[%sender gives %usr0 a boop!]"
+    },
+    "_routines": []
+  },
+
+  "remote": []
+}

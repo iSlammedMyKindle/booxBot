@@ -1,0 +1,6 @@
+{
+  "remote": {
+    "desc": "does remote work?",
+    "out": "remote is alive!"
+  }
+}
