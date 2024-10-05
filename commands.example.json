@@ -20,5 +20,6 @@
     "_routines": []
   },
 
+  "files": ["./filesArrayTest.json"],
   "remote": []
 }
