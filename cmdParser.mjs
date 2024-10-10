@@ -3,6 +3,8 @@ import { readFile } from "fs/promises";
 // These are special commands that are functions instead of JSON. They can't be distributed like the JSON ones can, so it should be secure to just add these on
 var commands = {};
 var routines = []; //list of strings that are rotated every other moment
+var routineInterval;
+var routineStoppingPoint;
 var routineIndex = 0;
 
 const specialCommands = {
@@ -13,12 +15,16 @@ const specialCommands = {
       return "Commands are reloading!";
     },
   },
+  help: {
+    out:()=>Object.keys(commands).map((key)=>key == 'reload' ? undefined : '!' + key + ' - ' + commands[key].desc).filter(e=>e).join(' | '),
+    desc: 'Sends out this message!'
+  }
 };
 
 /**
  * @description Looks through all commands within `./commands.json`. If there's anything specified within `remote`, get commands from there too & stack. (override local commands with remote ones.)
  */
-async function loadCommands() {
+export async function loadCommands() {
   console.log("Fetching commands via the local config...");
 
   let reloadedCommands = [];
@@ -47,7 +53,7 @@ async function loadCommands() {
           routineIndex = 0;
           routines = commandFile.local[cmd];
         }
-        commands[cmd] = commandFile.local[cmd];
+        else commands[cmd] = commandFile.local[cmd];
       }
   
     if (commandFile.remote) {
@@ -64,6 +70,32 @@ async function loadCommands() {
       }
     }
   }
+
+  // Start the routines, restart the index
+  routineIndex = 0;
+  clearInterval(routineInterval);
+}
+
+/**
+ * Re-does the timer for the intervals, keeps them going for about 30 minutes, then stops.
+ * It will refresh when another person speaks
+ * @param {*} client 
+ * @param {*} channel 
+ */
+export function hydrateRoutines(client, channel){
+  clearTimeout(routineStoppingPoint);
+  routineStoppingPoint = setTimeout(()=>{
+    clearInterval(routineInterval)
+    routineInterval = undefined;
+  }, 1000 * 60 * 31); // 31 minutes, approximate because a message is sent every 15 minutes
+
+  if(!routineInterval) routineInterval = setInterval(()=>{
+    if(routineIndex > routines.length -1) routineIndex = 0
+
+    client.say(channel, routines[routineIndex]);
+
+    routineIndex ++;
+  }, 1000 * 60 * 15)
 }
 
 /**
@@ -157,5 +189,3 @@ export function parseMessage(client, channel, user, text, msg) {
 
   // Otherwise don't do anything; printing an error here wouldn't make sense since a channel could have plenty of other bots.
 }
-
-loadCommands();

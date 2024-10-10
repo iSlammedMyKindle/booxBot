@@ -9,6 +9,11 @@
       "out": "%rng!",
       "rng": ["heads", "tails"]
     },
+    "toast": {
+      "desc": "Toast a treat",
+      "out": "(*toaster-pops*) nice! %sender got %rng from the toaster!",
+      "rng": ["a bagel", "toast", "a pop-tart", "a waffle", "un-toasted bread", "a t-bone steak", "another toaster", "...a popsicle (?)"]
+    },
     "lurk": {
       "desc": "Tell everyone you're lurking!",
       "out": "%sender is now lurking!"
@@ -17,7 +22,7 @@
       "desc": "Boop someone!",
       "out": "[%sender gives %usr0 a boop!]"
     },
-    "_routines": []
+    "_routines": ["==Hello! I'm booxbot. If you'd like to try me out, put \"!help\" in the chat!==", "Give someone a \"!boop\" - remember to @ their name after the command", "You need something tasty, type !toast to get a consumable!"]
   },
 
   "files": ["./filesArrayTest.json"],

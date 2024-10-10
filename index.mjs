@@ -2,7 +2,7 @@ import { readFile, access, writeFile } from "fs/promises";
 import { authenticateTwitch } from "kindle-twitch-oauth";
 import { RefreshingAuthProvider, getTokenInfo } from "@twurple/auth";
 import { ClearMsg, ChatMessage, ChatClient } from "@twurple/chat";
-import { parseMessage } from "./cmdParser.mjs";
+import { parseMessage, loadCommands, hydrateRoutines } from "./cmdParser.mjs";
 // import { ApiClient } from '@twurple/api';
 
 // Open up config.json
@@ -55,4 +55,9 @@ chatClient.onMessage(function (channel, user, text, msg) {
   // chatClient.say(configFile.twitch.channels[0], "test", { replyTo: msg.id });
 
   if (text[0] == "!") parseMessage(chatClient, ...arguments);
+
+  // re-hydrate routines
+  hydrateRoutines(chatClient, channel);
 });
+
+loadCommands();
