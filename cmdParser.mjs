@@ -92,7 +92,7 @@ export function hydrateRoutines(client, channel){
   if(!routineInterval) routineInterval = setInterval(()=>{
     if(routineIndex > routines.length -1) routineIndex = 0
 
-    client.say(channel, routines[routineIndex]);
+    client.say(channel, '! ' + routines[routineIndex]);
 
     routineIndex ++;
   }, 1000 * 60 * 15)
