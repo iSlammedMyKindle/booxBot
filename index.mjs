@@ -3,7 +3,7 @@ import { authenticateTwitch } from "kindle-twitch-oauth";
 import { RefreshingAuthProvider, getTokenInfo } from "@twurple/auth";
 import { ClearMsg, ChatMessage, ChatClient } from "@twurple/chat";
 import { parseMessage, loadCommands, hydrateRoutines } from "./cmdParser.mjs";
-// import { ApiClient } from '@twurple/api';
+import { isSpamMessage } from "./spamDeletion.mjs";
 
 // Open up config.json
 // Intentionally break if it's not there, it's a requirement to run the app.
@@ -50,9 +50,22 @@ const chatClient = new ChatClient({
   channels: configFile.twitch.channels,
 });
 chatClient.connect();
-chatClient.onMessage(function (channel, user, text, msg) {
-  console.log("yay", channel, user, text);
+chatClient.onMessage(async function (channel, user, text, msg) {
+  console.log("message", channel, user, text);
   // chatClient.say(configFile.twitch.channels[0], "test", { replyTo: msg.id });
+
+  // Check for spam and delete if detected
+  if (isSpamMessage(text)) {
+    try {
+      await chatClient.bot.deleteMessage(channel, msg.id);
+      console.log(`Deleted spam message from ${user} in ${channel}: "${text}"`);
+    } catch (error) {
+      console.error("Failed to delete message:", error);
+    }
+
+    // Stop processing this message further
+    return;
+  }
 
   if (text[0] == "!") parseMessage(chatClient, ...arguments);
 

@@ -1,15 +1,17 @@
 {
   "scripts": {
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest"
   },
   "type": "module",
   "dependencies": {
-    "@twurple/api": "^7.1.0",
-    "@twurple/auth": "^7.1.0",
-    "@twurple/chat": "^7.1.0",
+    "@twurple/api": "^8.0.0",
+    "@twurple/auth": "^8.0.0",
+    "@twurple/chat": "^8.0.0",
     "kindle-twitch-oauth": "^1.2.0"
   },
   "devDependencies": {
+    "jest": "^30.4.2",
     "prettier": "3.8.3"
   }
 }
