@@ -1,0 +1,47 @@
+{
+  "scam_phrases": [
+    "Wanna become famous? Buy followers, primes and views on",
+    "best viewsat",
+    "best views at",
+    "Hello, sorry for bothering you. I want to offer promotion of your channel",
+    "Buy followers, primes, and viewers at",
+    "Get free Twitch followers at",
+    "Visit this Twitch stream for a",
+    "Boost your channel with real viewers",
+    "Wanna grow? Get viewers and followers at",
+    "Free viewers for your stream",
+    "Offering logo/overlay design for your channel DM me"
+  ],
+  "domains": [
+    "dogehype",
+    "bigfollows",
+    "streamrise",
+    "stream-rise",
+    "StreamBoo",
+    "streamskill",
+    "twitchplay",
+    "twitchgaming",
+    "mystrm",
+    "nvb3ws.xyz",
+    "wbluechekdsa.com",
+    "click.ru",
+    "cutt.ly",
+    "urltologin.com",
+    "nonactionantis.com",
+    "official.com",
+    "u.to",
+    "urlr"
+  ],
+  "patterns": [
+    "buy followers",
+    "buy viewers",
+    "buy primes",
+    "free followers",
+    "free viewers",
+    "wanna become famous",
+    "boost your channel",
+    "wanna grow",
+    "get viewers",
+    "get followers"
+  ]
+}

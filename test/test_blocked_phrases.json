@@ -1,0 +1,51 @@
+{
+  "scam_phrases": [
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+    "Ut enim ad minim veniam, quis nostrud exercitation ullamco",
+    "Duis aute irure dolor in reprehenderit in voluptate velit esse",
+    "Excepteur sint occaecat cupidatat non proident, sunt in culpa",
+    "Qui officia deserunt mollit anim id est laborum",
+    "Curabitur pretium tincidunt lacus. Nulla gravida orci a odio",
+    "Nulla varius, nulla facilisi. Praesent placerat risus quis eros",
+    "Fusce pellentesque suscipit nibh. Integer vitae libero ac risus",
+    "Praesent placerat risus quis eros. Vestibulum nec eros",
+    "Vestibulum nec eros euismod viverra. Nam nec tellus a odio tincidunt",
+    "Nam nec tellus a odio tincidunt auctor a ornare odio",
+    "Sed non mauris vitae erat consequat auctor eu in elit"
+  ],
+  "domains": [
+    "exampletest.com",
+    "sampledomain.org",
+    "testwebsite.net",
+    "demosite.info",
+    "fakeexample.biz",
+    "trialwebsite.us",
+    "experimentsite.ca",
+    "demonstration.co.uk",
+    "prototypedevelopment.au",
+    "testingframework.de",
+    "validationplatform.fr",
+    "assessmentsystem.jp",
+    "evaluationsite.cn",
+    "checkpoint.in",
+    "verificationpoint.ru"
+  ],
+  "patterns": [
+    "lorem ipsum",
+    "dolor sit amet",
+    "consectetur adipiscing",
+    "sed do eiusmod",
+    "tempor incididunt",
+    "ut labore et",
+    "dolore magna aliqua",
+    "ut enim ad",
+    "minim veniam",
+    "quis nostrud",
+    "exercitation ullamco",
+    "laboris nisi",
+    "ut aliquip",
+    "ex ea commodo",
+    "consequat duis"
+  ]
+}

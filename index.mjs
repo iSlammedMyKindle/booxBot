@@ -2,8 +2,9 @@ import { readFile, access, writeFile } from "fs/promises";
 import { authenticateTwitch } from "kindle-twitch-oauth";
 import { RefreshingAuthProvider, getTokenInfo } from "@twurple/auth";
 import { ClearMsg, ChatMessage, ChatClient } from "@twurple/chat";
+import { ApiClient } from "@twurple/api";
 import { parseMessage, loadCommands, hydrateRoutines } from "./cmdParser.mjs";
-// import { ApiClient } from '@twurple/api';
+import { isSpamMessage } from "./spamDeletion.mjs";
 
 // Open up config.json
 // Intentionally break if it's not there, it's a requirement to run the app.
@@ -43,16 +44,42 @@ authProvider.onRefresh(async function (_userId, newTokenData) {
 });
 
 // Add the bot via it's ID / username in order to send & receive stuff
-authProvider.addUser(configFile.twitch.bot_user, tokensFile, ["chat"]);
+// authProvider.addUser(configFile.twitch.bot_user, tokensFile, ["chat"]);
+const botUserId = (await getTokenInfo(tokensFile.accessToken, configFile.twitch.client_id)).userId
 
 const chatClient = new ChatClient({
   authProvider,
   channels: configFile.twitch.channels,
 });
 chatClient.connect();
-chatClient.onMessage(function (channel, user, text, msg) {
-  console.log("yay", channel, user, text);
-  // chatClient.say(configFile.twitch.channels[0], "test", { replyTo: msg.id });
+
+// This is for deleting messages
+const apiClient = new ApiClient({ authProvider });
+authProvider.addUser(botUserId, tokensFile, ["chat", "moderator"]);
+
+chatClient.onMessage(async function (channel, user, text, msg) {
+  console.log("message", channel, user, text);
+
+  // Check for spam and delete if detected
+  if (isSpamMessage(text)) {
+    // It doesn't matter if the broadcaster sends something; perms don't allow for it, which make it impossible to delete
+    if (channel == user) return;
+
+    // Other users though... they're in for a ride
+    try {
+      apiClient.asUser(botUserId,
+        async ctx => {
+          ctx.moderation.deleteChatMessages(msg.channelId, msg.id)
+        }
+      );
+      console.log(`Deleted spam message from ${user} in ${channel}: "${text}"`);
+    } catch (error) {
+      console.error("Failed to delete message:", error);
+    }
+
+    // Stop processing this message further
+    return;
+  }
 
   if (text[0] == "!") parseMessage(chatClient, ...arguments);
 

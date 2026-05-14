@@ -1,10 +1,12 @@
 {
   "twitch": {
     "bot_user": "username_of_the_bot",
-    "channels": ["channel_for_bot_to_observe"],
+    "channels": [
+      "channel_for_bot_to_observe"
+    ],
     "client_id": "",
     "client_secret": "",
-    "scope": "chat:read chat:edit",
+    "scope": "chat:read chat:edit channel:moderate moderator:manage:chat_messages",
     "redirect_uri": "http://localhost:3000"
   },
   "webServer": {

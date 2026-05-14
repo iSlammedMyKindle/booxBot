@@ -119,7 +119,7 @@ The overall intent is that:
 This section explains how developers will utilize models, and provide full transparency of the process, as well as how to go about performing a Pull Request:
 
 - Every new code change MUST be comprehended and understood.
-- Every new code changes MUST be tested at some capacity, this may include:
+- Every new code change MUST be tested at some capacity, this may include:
   - Manual testing (MUST)
   - Unit testing (SHOULD) (Depends on codebase)
   - E2E (SHOULD) (Depends on codebase)

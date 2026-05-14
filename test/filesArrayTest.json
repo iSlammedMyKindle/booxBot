@@ -1,0 +1,10 @@
+{
+  "local": {
+    "filesarraytest": {
+      "desc": "does the file array function?",
+      "out": "local file array works!"
+    }
+  },
+
+  "remote": []
+}
