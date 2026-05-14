@@ -1,8 +1,6 @@
 [Unit]
 Description=Boox Bot Twitch Service
 After=network.target
-Wants=twitchListenerCore.service
-After=twitchListenerCore.service
 
 [Service]
 Type=simple
