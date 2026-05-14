@@ -16,9 +16,15 @@ const specialCommands = {
     },
   },
   help: {
-    out:()=>Object.keys(commands).map((key)=>key == 'reload' ? undefined : '!' + key + ' - ' + commands[key].desc).filter(e=>e).join(' | '),
-    desc: 'Sends out this message!'
-  }
+    out: () =>
+      Object.keys(commands)
+        .map((key) =>
+          key == "reload" ? undefined : "!" + key + " - " + commands[key].desc,
+        )
+        .filter((e) => e)
+        .join(" | "),
+    desc: "Sends out this message!",
+  },
 };
 
 /**
@@ -29,40 +35,38 @@ export async function loadCommands() {
 
   let reloadedCommands = [];
   commands = { ...specialCommands };
-  
+
   try {
     const rootFile = JSON.parse(await readFile("./commands.json"));
     reloadedCommands.push(rootFile);
 
     // Search for other files to load
-    if(rootFile.files){
+    if (rootFile.files) {
       // This can only happen in the root file, putting it into a non-main file won't do anything
-      for(const file of rootFile.files) reloadedCommands.push(JSON.parse(await readFile(file)));
+      for (const file of rootFile.files)
+        reloadedCommands.push(JSON.parse(await readFile(file)));
     }
-
   } catch (e) {
     console.error("Unable to read the commands file!", e);
     return;
   }
 
-
-  for(const commandFile of reloadedCommands){
+  for (const commandFile of reloadedCommands) {
     if (commandFile.local)
       for (const cmd in commandFile.local) {
         if (cmd == "_routines") {
           routineIndex = 0;
           routines = commandFile.local[cmd];
-        }
-        else commands[cmd] = commandFile.local[cmd];
+        } else commands[cmd] = commandFile.local[cmd];
       }
-  
+
     if (commandFile.remote) {
       // Obtain the JSON from a remote resource, override the existing commands if applicable
       for (const link of commandFile.remote) {
         console.log("Now loading remote commands from", link);
-  
+
         const remoteCommands = JSON.parse(await (await fetch(link)).text());
-  
+
         // Load these remote commands
         for (const cmd in remoteCommands) {
           commands[cmd] = remoteCommands[cmd];
@@ -79,23 +83,30 @@ export async function loadCommands() {
 /**
  * Re-does the timer for the intervals, keeps them going for about 30 minutes, then stops.
  * It will refresh when another person speaks
- * @param {*} client 
- * @param {*} channel 
+ * @param {*} client
+ * @param {*} channel
  */
-export function hydrateRoutines(client, channel){
+export function hydrateRoutines(client, channel) {
   clearTimeout(routineStoppingPoint);
-  routineStoppingPoint = setTimeout(()=>{
-    clearInterval(routineInterval)
-    routineInterval = undefined;
-  }, 1000 * 60 * 31); // 31 minutes, approximate because a message is sent every 15 minutes
+  routineStoppingPoint = setTimeout(
+    () => {
+      clearInterval(routineInterval);
+      routineInterval = undefined;
+    },
+    1000 * 60 * 31,
+  ); // 31 minutes, approximate because a message is sent every 15 minutes
 
-  if(!routineInterval) routineInterval = setInterval(()=>{
-    if(routineIndex > routines.length -1) routineIndex = 0
+  if (!routineInterval)
+    routineInterval = setInterval(
+      () => {
+        if (routineIndex > routines.length - 1) routineIndex = 0;
 
-    client.say(channel, '! ' + routines[routineIndex]);
+        client.say(channel, "! " + routines[routineIndex]);
 
-    routineIndex ++;
-  }, 1000 * 60 * 15)
+        routineIndex++;
+      },
+      1000 * 60 * 15,
+    );
 }
 
 /**
