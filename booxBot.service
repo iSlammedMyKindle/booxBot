@@ -1,0 +1,15 @@
+[Unit]
+Description=Boox Bot Twitch Service
+After=network.target
+Wants=twitchListenerCore.service
+After=twitchListenerCore.service
+
+[Service]
+Type=simple
+WorkingDirectory=/path/to/booxBot
+ExecStart=/usr/bin/node index.mjs
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

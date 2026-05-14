@@ -85,7 +85,7 @@ export function parseMessage(client, channel, user, text, msg) {
             .filter((e) => e)
             .map((str) => {
               return str.split(" ")[0];
-            })
+            }),
         );
     }
 
@@ -136,7 +136,7 @@ export function parseMessage(client, channel, user, text, msg) {
         "%rng",
         commands[parsedContent[0]].rng[
           Math.floor(Math.random() * commands[parsedContent[0]].rng.length)
-        ]
+        ],
       );
 
     // Grab the command's output and spew it

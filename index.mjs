@@ -18,7 +18,7 @@ try {
   // Obtain configuration from main config.json
   tokensFile = await authenticateTwitch(
     configFile.twitch,
-    configFile.webServer
+    configFile.webServer,
   );
 
   await writeFile("./tokens.json", JSON.stringify(tokensFile));
@@ -38,7 +38,7 @@ authProvider.onRefresh(async function (_userId, newTokenData) {
   return await writeFile(
     "./tokens.json",
     JSON.stringify(newTokenData, null, 4),
-    "utf-8"
+    "utf-8",
   );
 });
 
